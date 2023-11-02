@@ -21,10 +21,23 @@ class ship {
             ship.hull -= this.firepower;
         }
         if (ship.hull <= 0) {
-            ship.lose();
+            battleStatus = 0;
+            // if player wins battle
+            if (ship.alignment = 'Aliens') {
+                aliens.shift();
+                if (aliens[0] !== false) {
+                    doBattle(player, aliens[0]);
+                } else {
+                    console.log(`You defeated all of the aliens. Humanity is saved! 🎉`);
+                }
+            // if player loses battle
+            } else {
+                console.log(`${player.name} was struck down in battle, and you ended up being no more than a stain on the boot of the Aliens' intergalactic conquest.`);
+            }
         }
     }
 }
+let battleStatus;
 const aliens = [];
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
@@ -37,3 +50,19 @@ const createAlienShips = function(numOfShips) {
 
 const player = new ship('The USS Assembly', 20, 5, .7, 'Earth');
 createAlienShips(6);
+
+const runGame = function() {
+    for (const alien of aliens) {
+        doBattle(player, alien)
+    }
+    
+}
+const doBattle = function(ship1, ship2) {
+    battleStatus = 1;
+    ship1.attack(ship2);
+    if (battleStatus === 1) {
+        doBattle(ship2, ship1)
+    }
+}
+
+runGame();
