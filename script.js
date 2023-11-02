@@ -5,9 +5,12 @@
 // create "game":
 // 1. array of alien ships
 // 2. combat
-    // a. hit -> check -> get hit -> check -> ..
-    // b. attack || retreat
+// a. hit -> check -> get hit -> check -> ..
+// b. attack || retreat
 
+let battleStatus; // state var
+
+// Ship constructor
 class ship {
     constructor(name, hull, firepower, accuracy, alignment){
         this.name = name;
@@ -22,22 +25,11 @@ class ship {
         }
         if (ship.hull <= 0) {
             battleStatus = 0;
-            // if player wins battle
-            if (ship.alignment = 'Aliens') {
-                aliens.shift();
-                if (aliens[0] !== false) {
-                    doBattle(player, aliens[0]);
-                } else {
-                    console.log(`You defeated all of the aliens. Humanity is saved! 🎉`);
-                }
-            // if player loses battle
-            } else {
-                console.log(`${player.name} was struck down in battle, and you ended up being no more than a stain on the boot of the Aliens' intergalactic conquest.`);
-            }
         }
     }
 }
-let battleStatus;
+
+// Creating alien ships (& randomizing their stats)
 const aliens = [];
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
@@ -48,15 +40,29 @@ const createAlienShips = function(numOfShips) {
     }
 }
 
-const player = new ship('The USS Assembly', 20, 5, .7, 'Earth');
-createAlienShips(6);
-
+// Initialize ships, begin game
 const runGame = function() {
-    for (const alien of aliens) {
+    const player = new ship('The USS Assembly', 20, 5, .7, 'Earth');
+    createAlienShips(6);
+
+    for (const alien of aliens.slice()) {
         doBattle(player, alien)
+        // player loses battle (END)
+        if (player.hull <= 0) {
+            console.log(`${player.name} is struck down in battle, ultimately allowing the aliens to conquer Earth. Humanity's run ends here.`);
+            break;
+        }
+        // player wins battle
+        defeatedAlien = aliens.shift();
+        if (aliens[0] === undefined) {
+            console.log(`You have defeated all of the aliens. Humanity is saved! 🎉`);
+            break;
+        } else {
+            promptContinue();
+        }
     }
-    
 }
+// Combat loop
 const doBattle = function(ship1, ship2) {
     battleStatus = 1;
     ship1.attack(ship2);
@@ -64,5 +70,13 @@ const doBattle = function(ship1, ship2) {
         doBattle(ship2, ship1)
     }
 }
+const promptContinue = function() {
+    console.log(`${defeatedAlien.name} defeated! Only ${aliens.length} to go...\nContinue?`);
+}
 
 runGame();
+
+// left to do:
+// finish promptContinue()
+    // html?
+// live battle messages
