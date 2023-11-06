@@ -11,6 +11,7 @@
 let battleStatus; // state var
 let infoLogs = [];
 let infoLogsClone = [];
+let player;
 
 // Ship constructor
 class ship {
@@ -43,6 +44,7 @@ const createAlienShips = function(numOfShips) {
     }
 }
 
+//// UTILITY FUNCTIONS
 // Function for adding text to infobox
 const printInfo = function(text) {
     infoLogs.push(text);
@@ -58,28 +60,34 @@ const updateInfobox = function() {
     })
     infoLogsClone = infoLogs.slice();
 }
-
+// Toggle hidden
+const toggleHidden = function () {
+    document.querySelector('#continue').hidden = !document.querySelector('#continue').hidden;
+}
 
 // Initialize ships, begin game
 const runGame = function() {
-    const player = new ship('The USS Assembly', 20, 5, .7);
+    player = new ship('The USS Assembly', 20, 5, .7);
     createAlienShips(6);
 
-    for (const alien of aliens.slice()) {
-        doBattle(player, alien)
-        // player loses battle (END)
-        if (player.hull <= 0) {
-            printInfo(`${player.name} is struck down in battle, ultimately allowing the aliens to conquer Earth. Humanity's run ends here.`);
-            break;
-        }
-        // player wins battle
-        defeatedAlien = aliens.shift();
-        if (aliens[0] === undefined) {
-            printInfo(`You have defeated all of the aliens. Humanity is saved! 🎉`);
-            break;
-        } else {
-            promptContinue();
-        }
+    iterateBattle();
+}
+
+const iterateBattle = function() {
+    if (!document.querySelector('#continue').hidden) {
+        toggleHidden();
+    }
+    doBattle(player, aliens[0]);
+    // player loses battle (END)
+    if (player.hull <= 0) {
+        printInfo(`${player.name} is struck down in battle, ultimately allowing the aliens to conquer Earth. Humanity's run ends here.`);
+    }
+    // player wins battle
+    defeatedAlien = aliens.shift();
+    if (aliens[0] === undefined) {
+        printInfo(`You have defeated all of the aliens. Humanity is saved! 🎉`);
+    } else {
+        promptContinue();
     }
 }
 // Combat loop
@@ -92,10 +100,10 @@ const doBattle = function(ship1, ship2) {
 }
 const promptContinue = function() {
     printInfo(`${defeatedAlien.name} defeated! Only ${aliens.length} to go...\n`);
-    document.querySelector('#continue').hidden = !document.querySelector('#continue').hidden;
-    // add button functionality
-    
+    toggleHidden();
 }
+
+document.querySelector('#continue-btn').addEventListener('click', iterateBattle)
 
 runGame();
 

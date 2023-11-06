@@ -35,20 +35,22 @@ main {
 }
 
 #infobox {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: flex-start; */
     width: 40rem;
     height: 50rem;
-    /* justify-content: center;
-    align-items: center; */
 }
 
 .info {
     font-size: 1rem;
-    padding: auto;
-    margin: auto;
+    display: inline-block;
+    margin: 6px auto;
 }
 
 .ships {
     height: 40rem;
+    width: 33%;
 }
 
 .shipPics {
@@ -67,5 +69,5 @@ main {
 }
 
 .hidden {
-    
+
 }
