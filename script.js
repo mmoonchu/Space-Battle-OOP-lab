@@ -8,6 +8,10 @@
 // a. hit -> check -> get hit -> check -> ..
 // b. attack || retreat
 
+let playerShipPics = ['https://cdna.artstation.com/p/assets/images/images/037/562/062/original/josh-bruce-barrager.gif?1620708792'];
+let alienShipPics = ['https://cdna.artstation.com/p/assets/images/images/037/561/420/original/josh-bruce-betterdays.gif?1620706714', 'https://cdnb.artstation.com/p/assets/images/images/037/561/421/original/josh-bruce-default.gif?1620706720', 'https://cdnb.artstation.com/p/assets/images/images/037/562/075/original/josh-bruce-terminator.gif?1620708808', 'https://cdna.artstation.com/p/assets/images/images/037/562/068/original/josh-bruce-reaper.gif?1620708800', 'https://cdnb.artstation.com/p/assets/images/images/037/561/423/original/josh-bruce-galaxy.gif?1620706729', 'https://starquestgame.com/assets/img/ships/player/pstyles.gif', 'https://starquestgame.com/assets/img/ships/player/storm.gif', 'https://starquestgame.com/assets/img/ships/player/marauder.gif', 'https://starquestgame.com/assets/img/ships/player/fat-cat.gif'];
+const maxShips = alienShipPics.length; // later: implement prompt for desired # of enemy spaceships
+
 let battleStatus; // state var
 let infoLogs = [];
 let infoLogsClone = [];
@@ -15,11 +19,12 @@ let player;
 
 // Ship constructor
 class ship {
-    constructor(name, hull, firepower, accuracy){
+    constructor(name, hull, firepower, accuracy, shipPic){
         this.name = name;
         this.hull = hull;
         this.firepower = firepower;
         this.accuracy = accuracy;
+        this.shipPic = shipPic;
     }
     attack(ship) {
         printInfo(`${this.name} takes a shot at ${ship.name}...`);
@@ -39,8 +44,10 @@ function getRandomInt(max) {
     return Math.floor(Math.random() * max);
 }
 const createAlienShips = function(numOfShips) {
-    for (let i = 0; i < numOfShips; i++) {
-        aliens[i] = new ship(`Alien ${i + 1}`, getRandomInt(4) + 3, getRandomInt(3) + 2, getRandomInt(3) * .1 + .6)
+    if (numOfShips <= maxShips) {
+        for (let i = 0; i < numOfShips; i++) {
+            aliens[i] = new ship(`Alien ${i + 1}`, getRandomInt(4) + 3, getRandomInt(3) + 2, getRandomInt(3) * .1 + .6, alienShipPics[i])
+        }
     }
 }
 
@@ -74,7 +81,7 @@ const toggleHidden = function () {
 //////////////////////////////////////
 // Initialize ships, begin game
 const runGame = function() {
-    player = new ship('The USS Assembly', 20, 5, .7);
+    player = new ship('The USS Assembly', 20, 5, .7, playerShipPics[0]);
     createAlienShips(6);
 
     iterateBattle();
@@ -104,6 +111,7 @@ const iterateBattle = function() {
 }
 // Combat loop
 const doBattle = function(ship1, ship2) {
+    document.querySelector('#alienShipPic').setAttribute('src', `${ship2.shipPic}`);
     battleStatus = 1;
     ship1.attack(ship2);
     if (battleStatus === 1) {
@@ -113,7 +121,7 @@ const doBattle = function(ship1, ship2) {
 const promptContinue = function() {
     printInfo(`${defeatedAlien.name} defeated! Only ${aliens.length} to go...\n`);
     changeFont('big');
-    toggleHidden();
+    setTimeout(toggleHidden, 1000);
 }
 const ceaseGame = function() {
     printInfo(`You turn tail and run. Humanity's days are numbered.`);
