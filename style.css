@@ -83,13 +83,26 @@ main {
     color: red;
 }
 
+.yellow {
+    color: yellow;
+}
+
+.purple {
+    color: rgb(61, 145, 255);
+}
+
 .big {
     font-size: 1.8rem;
 }
 
+.hit {
+    font-size: 1.2rem;
+    color: rgb(255, 99, 26);
+}
+
 .winText {
-    color: rgb(128, 252, 70);
-    font-size: 2rem;
+    color: rgb(70, 194, 252);
+    font-size: 2.1rem;
 }
 
 .loseText {
