@@ -39,7 +39,8 @@ main {
     flex-direction: column;
     /* justify-content: flex-start; */
     width: 40rem;
-    height: 50rem;
+    height: 30rem;
+    overflow: auto;
 }
 
 .info {
@@ -58,7 +59,14 @@ main {
 }
 
 #continue {
+    /* display: flex; */
+    flex-direction: column;
     margin: auto;
+}
+
+#question {
+    display: inline-block;
+    margin: 0 auto 9px;
 }
 
 .option {
@@ -68,6 +76,20 @@ main {
     margin: 10px;
 }
 
-.hidden {
+.red {
+    color: red;
+}
 
+.big {
+    font-size: 1.8rem;
+}
+
+.winText {
+    color: green;
+    font-size: 2rem;
+}
+
+.loseText {
+    color: red;
+    font-size: 1.4rem;
 }

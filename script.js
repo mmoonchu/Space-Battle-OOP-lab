@@ -56,15 +56,22 @@ const updateInfobox = function() {
             document.querySelector('#infobox').appendChild(document.createElement('p'));
             document.querySelector('#infobox').lastChild.classList.add('info');
             document.querySelector('#infobox').lastChild.innerText = log;
+            document.querySelector('#infobox').scrollTop = document.querySelector('#infobox').scrollHeight;
         }
     })
     infoLogsClone = infoLogs.slice();
 }
+// Special fonts
+const changeFont = function(fontType) {
+    document.querySelector('#infobox').lastChild.classList.add(fontType);
+    document.querySelector('#infobox').scrollTop = document.querySelector('#infobox').scrollHeight;
+}
 // Toggle hidden
 const toggleHidden = function () {
     document.querySelector('#continue').hidden = !document.querySelector('#continue').hidden;
+    // console.log(document.querySelector('#continue').hidden);
 }
-
+//////////////////////////////////////
 // Initialize ships, begin game
 const runGame = function() {
     player = new ship('The USS Assembly', 20, 5, .7);
@@ -81,13 +88,18 @@ const iterateBattle = function() {
     // player loses battle (END)
     if (player.hull <= 0) {
         printInfo(`${player.name} is struck down in battle, ultimately allowing the aliens to conquer Earth. Humanity's run ends here.`);
-    }
-    // player wins battle
-    defeatedAlien = aliens.shift();
-    if (aliens[0] === undefined) {
-        printInfo(`You have defeated all of the aliens. Humanity is saved! 🎉`);
-    } else {
-        promptContinue();
+        changeFont('loseText');
+    } else if (aliens[0].hull <= 0) {
+        // player wins battle
+        defeatedAlien = aliens.shift();
+        if (aliens[0] === undefined) {
+            printInfo(`You have defeated all of the aliens.`);
+            changeFont('winText');
+            printInfo(`Humanity is saved! 🎉`);
+            changeFont('winText');
+        } else {
+            promptContinue();
+        }
     }
 }
 // Combat loop
@@ -100,10 +112,17 @@ const doBattle = function(ship1, ship2) {
 }
 const promptContinue = function() {
     printInfo(`${defeatedAlien.name} defeated! Only ${aliens.length} to go...\n`);
+    changeFont('big');
+    toggleHidden();
+}
+const ceaseGame = function() {
+    printInfo(`You turn tail and run. Humanity's days are numbered.`);
+    changeFont('red');
     toggleHidden();
 }
 
 document.querySelector('#continue-btn').addEventListener('click', iterateBattle)
+document.querySelector('#retreat-btn').addEventListener('click', ceaseGame)
 
 runGame();
 
