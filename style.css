@@ -51,6 +51,17 @@ main {
     margin: 6px auto;
 }
 
+.statbox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stats {
+    font-size: 1.5rem;
+    margin: 10px;
+}
+
 .ships {
     height: 40rem;
     width: 40rem;

@@ -34,6 +34,8 @@ class ship {
                 ship.hull -= this.firepower;
                 printInfo(`It hits for ${this.firepower} damage!! ${ship.name} has ${ship.hull} hitpoints remaining.`);
                 changeFont('hitText');
+                updatePlayerContent();
+                updateAlienContent();
             } else {
                 printInfo(`It misses!`);
                 changeFont('missText');
@@ -60,6 +62,14 @@ const createAlienShips = function(numOfShips) {
     }
 }
 
+const updatePlayerContent = function() {
+    document.querySelector(`#playerName`).textContent = player.name;
+    document.querySelector(`#playerHealth`).textContent = `Health: ` + player.hull;
+}
+const updateAlienContent = function() {
+    document.querySelector(`#alienName`).textContent = aliens[0].name;
+    document.querySelector(`#alienHealth`).textContent = `Health: ` + aliens[0].hull;
+}
 //// UTILITY FUNCTIONS
 // Function for adding text to infobox
 const printInfo = function(text) {
@@ -87,19 +97,20 @@ const toggleHidden = function() {
     document.querySelector('#continue').hidden = !document.querySelector('#continue').hidden;
     // console.log(document.querySelector('#continue').hidden);
 }
+
 //////////////////////////////////////
 // Initialize ships, begin game
 const runGame = function() {
     player = new ship('The USS Assembly', 20, 5, .7, playerShipPics[0]);
     createAlienShips(6);
-
     iterateBattle();
 }
-
 const iterateBattle = function() {
     if (!document.querySelector('#continue').hidden) {
         toggleHidden();
     }
+    updatePlayerContent();
+    updateAlienContent();
     document.querySelector('#alienShipPic').setAttribute('src', `${aliens[0].shipPic}`);
     doBattle(player, aliens[0]);
 }
