@@ -1,0 +1,71 @@
+* {
+    font-family: sans-serif;
+}
+
+body {
+    background-image: url('https://images.pexels.com/photos/998641/pexels-photo-998641.jpeg?cs=srgb&dl=pexels-francesco-ungaro-998641.jpg&fm=jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+h1 {
+    font-size: 6rem;
+    color: white;
+}
+
+p {
+    font-size: 3rem;
+    color: white;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+#middle {
+    display: flex;
+    height: 40rem;
+}
+
+#infobox {
+    width: 40rem;
+    height: 50rem;
+    /* justify-content: center;
+    align-items: center; */
+}
+
+.info {
+    font-size: 1rem;
+    padding: auto;
+    margin: auto;
+}
+
+.ships {
+    height: 40rem;
+}
+
+.shipPics {
+    object-fit: contain;
+}
+
+#continue {
+    margin: auto;
+}
+
+.option {
+    font-size: 2rem;
+    min-height: 3rem;
+    padding: 5px 10px;
+    margin: 10px;
+}
+
+.hidden {
+    
+}
