@@ -91,6 +91,7 @@ const iterateBattle = function() {
     if (!document.querySelector('#continue').hidden) {
         toggleHidden();
     }
+    document.querySelector('#alienShipPic').setAttribute('src', `${aliens[0].shipPic}`);
     doBattle(player, aliens[0]);
     // player loses battle (END)
     if (player.hull <= 0) {
@@ -111,7 +112,6 @@ const iterateBattle = function() {
 }
 // Combat loop
 const doBattle = function(ship1, ship2) {
-    document.querySelector('#alienShipPic').setAttribute('src', `${ship2.shipPic}`);
     battleStatus = 1;
     ship1.attack(ship2);
     if (battleStatus === 1) {
