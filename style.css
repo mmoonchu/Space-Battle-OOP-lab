@@ -79,23 +79,16 @@ main {
     margin: 10px;
 }
 
-.red {
-    color: red;
-}
-
-.yellow {
+.missText {
     color: yellow;
 }
 
-.purple {
+.battleWinText {
+    font-size: 1.8rem;
     color: rgb(61, 145, 255);
 }
 
-.big {
-    font-size: 1.8rem;
-}
-
-.hit {
+.hitText {
     font-size: 1.2rem;
     color: rgb(255, 99, 26);
 }
@@ -107,5 +100,5 @@ main {
 
 .loseText {
     color: red;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
 }

@@ -16,7 +16,7 @@ let battleStatus; // state var
 let infoLogs = [];
 let infoLogsClone = [];
 let player;
-let battleTimeout = 0;
+let logDelay = 900;
 
 // Ship constructor
 class ship {
@@ -29,17 +29,21 @@ class ship {
     }
     attack(ship) {
         printInfo(`${this.name} takes a shot at ${ship.name}...`);
-        if (Math.random() <= this.accuracy) {
-            ship.hull -= this.firepower;
-            printInfo(`It hits for ${this.firepower} damage!! ${ship.name} has ${ship.hull} hitpoints remaining.`);
-            changeFont('hit');
-        } else {
-            printInfo(`It misses!`);
-            changeFont('yellow');
-        }
-        if (ship.hull <= 0) {
-            battleStatus = 0;
-        }
+        setTimeout(() => {
+            if (Math.random() <= this.accuracy) {
+                ship.hull -= this.firepower;
+                printInfo(`It hits for ${this.firepower} damage!! ${ship.name} has ${ship.hull} hitpoints remaining.`);
+                changeFont('hitText');
+            } else {
+                printInfo(`It misses!`);
+                changeFont('missText');
+            }
+            if (ship.hull <= 0) {
+                endBattle();
+            } else {
+                doBattle(ship, this);
+            }
+        }, logDelay);
     }
 }
 
@@ -119,25 +123,18 @@ const endBattle = function() {
 }
 // Combat loop
 const doBattle = function(ship1, ship2) {
-    battleStatus = 1;
     setTimeout(() => {
         ship1.attack(ship2);
-        if (battleStatus === 1) {
-            doBattle(ship2, ship1);
-        } else {
-            endBattle();
-        }
-    }, 700);
+    }, 2 * logDelay);
 }
 const promptContinue = function() {
     printInfo(`${defeatedAlien.name} defeated! Only ${aliens.length} to go...\n`);
-    changeFont('big');
-    changeFont('purple');
+    changeFont('battleWinText');
     setTimeout(toggleHidden, 1000);
 }
 const ceaseGame = function() {
     printInfo(`You turn tail and run. Humanity's days are numbered.`);
-    changeFont('red');
+    changeFont('loseText');
     toggleHidden();
 }
 
